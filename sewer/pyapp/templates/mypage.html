@@ -1,0 +1,80 @@
+<!doctype html>
+{% load staticfiles %}
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/iconmoon.css' %}">
+        <title>排水設備工事業者　マイページ</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <p class="navbar-text"><i class="iconmoon-hammer"></i> マイページ</p>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="btn navbar-btn" href="/mypage/"><i class="iconmoon-cog"></i> {{ constractor.constractor }}</a></li>
+                        <li><a class="btn navbar-btn" href="/logout/"><i class="iconmoon-undo2"></i> ログアウト</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container" style="padding:100px 0 0 0">
+            <h1>排水設備工事業者　マイページ</h1>
+            <div>{{ message|safe }}</div>
+            <table class="table">
+                <form action="{% url 'pyapp:mypage' %}" method="post">
+                    {% csrf_token %}
+                    <tr><td></td><td><i class="iconmoon-user"></i> 基本情報の編集</td></tr>
+                    <tr><th><label>ユーザー名:</label></th><td>{{ constractor.username }}</td></tr>
+                    <tr><th><label>登録日:</label></th><td>{{ constractor.registered }}</td></tr>
+                    {{ form.as_table }}
+                    <tr><td></td><td><input class="btn btn-primary form-control" type="submit" value="決定"></td></tr>
+                </form>
+            </table>
+            <hr />
+            <a href="/request/" class="btn btn-primary">排水設備工事申請書を追加</a>
+            <hr />
+            <h2>要訂正申請書</h2>
+            <p>以下の申請書には指摘事項があるため、訂正をお願いいたします。</p>
+            <p>訂正完了後、再審査いたします。</p>
+            <ul>
+                {% for req in problem_requests %}
+                <li><a href="/request/?id={{ req.id }}">[{{ req.id|stringformat:'04d' }}]（{{ req.client }}）{{ req.place }}</a></li>
+                {% endfor %}
+            </ul>
+            <hr />
+            <h2>許可済み申請書</h2>
+            <p>以下の申請書は審査完了しましたので、工事を始めてください。</p>
+            <p>工事完了後は速やかに完了届を提出してください。</p>
+            <ul>
+                {% for req in allowed_requests %}
+                <li><a href="/preview/?id={{ req.id }}">[{{ req.id|stringformat:'04d' }}]（{{ req.client }}）{{ req.place }}</a></li>
+                {% endfor %}
+            </ul>
+            <hr />
+            <h2>収受した申請書</h2>
+            <p>以下の申請書は現在審査中です。</p>
+            <p>今しばらくお待ちください。</p>
+            <ul>
+                {% for req in recieved_requests %}
+                <li><a href="/preview/?id={{ req.id }}">[{{ req.id|stringformat:'04d' }}]（{{ req.client }}）{{ req.place }}</a></li>
+                {% endfor %}
+            </ul>
+            <hr />
+            <h2>訂正した申請書</h2>
+            <p>以下の訂正済み申請書は現在審査中です。</p>
+            <p>今しばらくお待ちください。</p>
+            <ul>
+                {% for req in exam_requests %}
+                <li><a href="/preview/?id={{ req.id }}">[{{ req.id|stringformat:'04d' }}]（{{ req.client }}）{{ req.place }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    </body>
+</html>

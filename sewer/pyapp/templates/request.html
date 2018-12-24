@@ -1,0 +1,54 @@
+<!doctype html>
+{% load staticfiles %}
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/iconmoon.css' %}">
+        <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/jquery-ui.structure.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/jquery-ui.theme.min.css' %}">
+        <title>排水設備工事申請</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <p class="navbar-text"><i class="iconmoon-hammer"></i> 排水設備工事申請</p>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="btn navbar-btn" href="/mypage/"><i class="iconmoon-cog"></i> {{ constractor.constractor }}</a></li>
+                        <li><a class="btn navbar-btn" href="/logout/"><i class="iconmoon-undo2"></i> ログアウト</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container" style="padding:100px 0 0 0">
+            <h1>排水設備工事申請</h1>
+            <div>{{ message|safe }}</div>
+            <table class="table">
+                <form action="/request/{% ifnotequal id 0 %}?id={{ id }}{% endifnotequal %}" method="post">
+                    {% csrf_token %}
+                    <tr><td></td><td><i class="iconmoon-wrench"></i> 申請書の編集</td></tr>
+                    {{ form.as_table }}
+                    <tr><td></td><td>{{ btn_tag|safe }}</td></tr>
+                </form>
+            </table>
+            <hr />
+            <a href='/mypage/'>マイページに戻る</a>
+        </div>
+
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+        <script>
+            $(function () {
+                $('.datepicker-ui').datepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
+            });
+        </script>
+    </body>
+</html>

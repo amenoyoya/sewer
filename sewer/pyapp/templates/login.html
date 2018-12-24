@@ -1,0 +1,27 @@
+<!doctype html>
+{% load staticfiles %}
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/iconmoon.css' %}">
+        <title>排水設備工事申請　ログインページ</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>排水設備工事申請　ログインページ</h1>
+            <div>{{ message|safe }}</div>
+            <table class="table">
+                <form action="{% url 'pyapp:login' %}" method="post">
+                    {% csrf_token %}
+                    <tr><td></td><td><i class="iconmoon-hammer"></i> ログインフォーム</td></tr>
+                    {{ form.as_table }}
+                    <tr><td></td><td><input class="btn btn-primary form-control" type="submit" value="送信"></td></tr>
+                </form>
+            </table>
+        </div>
+
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
